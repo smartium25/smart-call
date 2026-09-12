@@ -3,7 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Smart-Call · 3PD</title>
+<title>Smart-Chat · 3PD</title>
+
 <style>
 :root{
   --bg:#252a33;
@@ -17,15 +18,39 @@
   --red:#ff5b67;
   --border:#3b424d;
 }
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{width:100%;height:100%;overflow:hidden;}
+
+*{
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+}
+
+html,
+body{
+  width:100%;
+  height:100%;
+  overflow:hidden;
+}
+
 body{
   font-family:Segoe UI,Arial,sans-serif;
   background:var(--bg);
   color:var(--text);
 }
-button,input{font:inherit;}
-button{border:0;cursor:pointer;}
+
+button,
+input{
+  font:inherit;
+}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+/* =========================================================
+   APP
+========================================================= */
 
 .app{
   width:100%;
@@ -55,26 +80,46 @@ button{border:0;cursor:pointer;}
   margin-bottom:12px;
 }
 
+.title.white{
+  color:var(--text);
+}
+
 .scroll{
   flex:1;
   min-height:0;
   overflow:auto;
   padding-right:2px;
 }
-.scroll::-webkit-scrollbar{width:7px;}
-.scroll::-webkit-scrollbar-thumb{background:#46505c;border-radius:9px;}
 
-.user-card,.room-card{
+.scroll::-webkit-scrollbar,
+.chat-messages::-webkit-scrollbar,
+.member-list::-webkit-scrollbar{
+  width:7px;
+}
+
+.scroll::-webkit-scrollbar-thumb,
+.chat-messages::-webkit-scrollbar-thumb,
+.member-list::-webkit-scrollbar-thumb{
+  background:#46505c;
+  border-radius:9px;
+}
+
+/* =========================================================
+   USERS
+========================================================= */
+
+.user-card{
   background:var(--card);
   border-radius:12px;
   margin-bottom:10px;
-}
-
-.user-card{
   display:flex;
   align-items:center;
   gap:10px;
   padding:10px;
+}
+
+.user-card:hover{
+  background:#353c47;
 }
 
 .user-card img{
@@ -84,6 +129,7 @@ button{border:0;cursor:pointer;}
   object-fit:cover;
   border:2px solid var(--cyan);
   flex:none;
+  background:#171b21;
 }
 
 .status-dot{
@@ -92,30 +138,40 @@ button{border:0;cursor:pointer;}
   border-radius:50%;
   flex:none;
 }
-.status-dot.online{background:var(--green);}
-.status-dot.offline{background:#68707b;}
 
-.user-name,.room-name{
+.status-dot.online{
+  background:var(--green);
+}
+
+.status-dot.offline{
+  background:#68707b;
+}
+
+.user-name{
   min-width:0;
+  flex:1;
   overflow:hidden;
   text-overflow:ellipsis;
   white-space:nowrap;
-}
-.user-name{
-  flex:1;
   font-weight:600;
 }
 
-.call-btn,.primary-btn{
+.chat-btn{
   background:var(--cyan);
   color:#081013;
   font-weight:700;
   border-radius:9px;
   padding:9px 11px;
 }
-.call-btn:hover,.primary-btn:hover{background:#5ff6ff;}
 
-.full{width:100%;}
+.chat-btn:hover,
+.primary-btn:hover{
+  background:#5ff6ff;
+}
+
+/* =========================================================
+   CENTER
+========================================================= */
 
 .center{
   background:#21262e;
@@ -124,6 +180,10 @@ button{border:0;cursor:pointer;}
   flex-direction:column;
   overflow:hidden;
 }
+
+/* =========================================================
+   PROFILE
+========================================================= */
 
 #profile{
   height:100%;
@@ -156,7 +216,24 @@ button{border:0;cursor:pointer;}
   font-size:14px;
 }
 
-#call{
+.logout-btn{
+  margin-top:18px;
+  background:#454c57;
+  color:#fff;
+  border-radius:9px;
+  padding:10px 18px;
+  font-weight:700;
+}
+
+.logout-btn:hover{
+  background:#515a66;
+}
+
+/* =========================================================
+   CHAT
+========================================================= */
+
+#chat{
   display:none;
   width:100%;
   height:100%;
@@ -164,83 +241,151 @@ button{border:0;cursor:pointer;}
   min-height:0;
 }
 
-.call-head{
+.chat-head{
   padding:13px 15px;
   background:var(--card);
   color:var(--cyan);
   font-weight:700;
-  text-align:center;
+  display:flex;
+  align-items:center;
+  gap:10px;
   flex:none;
 }
 
-#callError{
-  display:none;
-  margin:12px 14px 0;
-  padding:10px 12px;
-  border-radius:10px;
-  background:#3b2428;
-  color:#ffafb5;
-  border:1px solid #70434a;
-  font-size:13px;
+.chat-head img{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--cyan);
+  background:#171b21;
   flex:none;
 }
 
-#videos{
+.chat-head-text{
+  min-width:0;
+}
+
+.chat-head-title{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.chat-head-sub{
+  color:var(--muted);
+  font-size:12px;
+  margin-top:3px;
+  font-weight:400;
+}
+
+.chat-messages{
   flex:1;
   min-height:0;
   overflow:auto;
   display:flex;
-  flex-wrap:wrap;
-  align-content:flex-start;
-  align-items:flex-start;
+  flex-direction:column;
   gap:10px;
   padding:14px;
 }
 
-.video-box{
-  position:relative;
-  background:#090b0e;
-  border-radius:11px;
-  overflow:hidden;
-  width:280px;
-  max-width:100%;
-  border:1px solid #3a4048;
+.message{
+  max-width:76%;
+  background:var(--card);
+  border-radius:12px;
+  padding:9px 11px;
+  font-size:13px;
+  line-height:1.4;
+  align-self:flex-start;
+  word-break:break-word;
 }
 
-.video-box video{
+.message.mine{
+  align-self:flex-end;
+  background:#0a4047;
+  border:1px solid rgba(0,240,255,.25);
+}
+
+.message-sender{
+  color:var(--cyan);
+  font-size:11px;
+  font-weight:700;
+  margin-bottom:4px;
+}
+
+.message-meta{
+  color:var(--muted);
+  font-size:10px;
+  margin-top:5px;
+}
+
+.media{
   display:block;
-  width:100%;
-  aspect-ratio:16/9;
-  object-fit:cover;
-  background:#090b0e;
+  width:auto;
+  max-width:100%;
+  max-height:300px;
+  border-radius:9px;
+  margin-top:6px;
 }
 
-.video-label{
-  position:absolute;
-  left:8px;
-  bottom:8px;
-  padding:5px 8px;
-  background:rgba(0,0,0,.68);
-  border-radius:7px;
-  font-size:12px;
-}
-
-.controls{
+.chat-compose{
   display:flex;
+  align-items:center;
   gap:9px;
   padding:12px 14px;
   background:var(--card);
   flex:none;
 }
 
-.end-btn{
-  background:var(--red);
+.chat-compose input{
+  width:100%;
+  min-width:0;
+  margin:0;
+  background:#1e232b;
+  color:var(--text);
+  border:1px solid #434b56;
+  border-radius:9px;
+  padding:11px 12px;
+  outline:none;
+}
+
+.chat-compose input:focus{
+  border-color:var(--cyan);
+}
+
+.chat-compose input::placeholder{
+  color:var(--muted);
+}
+
+.file-btn{
+  background:#454c57;
   color:#fff;
+  border-radius:9px;
+  width:42px;
+  height:42px;
+  flex:none;
+}
+
+.file-btn:hover{
+  background:#515a66;
+}
+
+.send-btn{
+  background:var(--cyan);
+  color:#081013;
   font-weight:700;
   border-radius:9px;
-  padding:10px 13px;
+  padding:10px 14px;
+  flex:none;
 }
-.end-btn:hover{filter:brightness(1.08);}
+
+.send-btn:hover{
+  background:#5ff6ff;
+}
+
+/* =========================================================
+   RIGHT
+========================================================= */
 
 input{
   width:100%;
@@ -252,19 +397,103 @@ input{
   outline:none;
   margin-bottom:9px;
 }
-input:focus{border-color:var(--cyan);}
 
-.room-card{
-  position:relative;
+input:focus{
+  border-color:var(--cyan);
+}
+
+.primary-btn{
+  background:var(--cyan);
+  color:#081013;
+  font-weight:700;
+  border-radius:9px;
+  padding:9px 11px;
+}
+
+.full{
+  width:100%;
+}
+
+.member-list{
+  flex:0 0 auto;
+  max-height:32vh;
+  overflow:auto;
+  margin-bottom:10px;
+}
+
+.member-card{
+  background:var(--card);
+  border-radius:12px;
+  margin-bottom:8px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:8px;
+}
+
+.member-card:hover{
+  background:#353c47;
+}
+
+.member-card img{
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  object-fit:cover;
+  border:2px solid var(--cyan);
+  background:#171b21;
+  flex:none;
+}
+
+.member-name{
+  min-width:0;
+  flex:1;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  font-size:12px;
+  font-weight:600;
+}
+
+.member-card input{
+  width:16px;
+  height:16px;
+  margin:0;
+  accent-color:var(--cyan);
+}
+
+.groups-title{
+  margin-top:14px;
+}
+
+.group-card{
+  background:var(--card);
+  border-radius:12px;
+  margin-bottom:10px;
   padding:11px 86px 11px 12px;
   min-height:66px;
+  position:relative;
   display:flex;
   align-items:center;
 }
 
-.room-info{width:100%;}
-.room-name{font-weight:700;}
-.room-creator{
+.group-card:hover{
+  background:#353c47;
+}
+
+.group-info{
+  width:100%;
+  min-width:0;
+}
+
+.group-name{
+  font-weight:700;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.group-sub{
   margin-top:4px;
   font-size:12px;
   color:var(--muted);
@@ -273,7 +502,7 @@ input:focus{border-color:var(--cyan);}
   white-space:nowrap;
 }
 
-.room-card .primary-btn{
+.group-card .chat-btn{
   position:absolute;
   right:10px;
   top:50%;
@@ -287,847 +516,2074 @@ input:focus{border-color:var(--cyan);}
   text-align:center;
 }
 
-.logout-btn{
-  margin-top:8px;
-  background:#454c57;
-  color:#fff;
-  border-radius:9px;
-  padding:10px 13px;
+/* =========================================================
+   ERROR / STATUS
+========================================================= */
+
+.chat-error{
+  display:none;
+  margin:12px 14px 0;
+  padding:10px 12px;
+  border-radius:10px;
+  background:#3b2428;
+  color:#ffafb5;
+  border:1px solid #70434a;
+  font-size:13px;
+  flex:none;
 }
-.logout-btn:hover{background:#515a66;}
+
+.status-message{
+  position:absolute;
+  left:14px;
+  bottom:7px;
+  color:#777d86;
+  font-size:10px;
+  max-width:60%;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.toast{
+  position:fixed;
+  left:50%;
+  bottom:18px;
+  transform:translateX(-50%);
+  background:#1d2128;
+  border:1px solid #414954;
+  color:#fff;
+  padding:9px 13px;
+  border-radius:9px;
+  font-size:12px;
+  display:none;
+  z-index:20;
+}
+
+.toast.show{
+  display:block;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
 
 @media(max-width:900px){
-  .app{grid-template-columns:220px 1fr;}
-  .app>.panel:last-child{display:none;}
+  .app{
+    grid-template-columns:220px 1fr;
+  }
+
+  .app>.panel:last-child{
+    display:none;
+  }
 }
 
 @media(max-width:600px){
-  .app{grid-template-columns:1fr;}
-  .app>.panel:first-child{display:none;}
-  .center{height:100vh;}
+  .app{
+    grid-template-columns:1fr;
+  }
+
+  .app>.panel:first-child{
+    display:none;
+  }
+
+  .center{
+    height:100vh;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <div class="app" id="app" style="display:none;">
 
+  <!-- LEFT -->
+
   <aside class="panel">
-    <div class="title">Usuarios</div>
-    <div class="scroll" id="users"></div>
+
+    <div class="title">
+      Usuarios
+    </div>
+
+    <div
+      class="scroll"
+      id="users"
+    ></div>
+
   </aside>
 
+  <!-- CENTER -->
+
   <main class="center">
+
     <section id="profile">
-      <img id="mypfp" class="big-pfp" src="https://via.placeholder.com/150" alt="Foto de perfil">
-      <div id="me" class="profile-name"></div>
-      <div class="profile-sub">Selecciona a alguien para iniciar una llamada</div>
-      <button class="logout-btn" onclick="logout()">LOG OUT</button>
+
+      <img
+        id="mypfp"
+        class="big-pfp"
+        src="https://via.placeholder.com/150"
+        alt="Foto de perfil"
+      >
+
+      <div
+        id="me"
+        class="profile-name"
+      ></div>
+
+      <div class="profile-sub">
+        Selecciona a alguien para iniciar un chat
+      </div>
+
+      <button
+        class="logout-btn"
+        onclick="logout()"
+      >
+        LOG OUT
+      </button>
+
     </section>
 
-    <section id="call">
-      <div class="call-head" id="callHead">Llamada</div>
-      <div id="callError"></div>
-      <div id="videos"></div>
-      <div class="controls">
-        <button class="primary-btn full" onclick="startCurrentCall()">📞 Llamar</button>
-        <button class="end-btn full" onclick="endCall()">Colgar</button>
+
+    <section id="chat">
+
+      <div class="chat-head">
+
+        <img
+          id="chatPfp"
+          src="https://via.placeholder.com/44"
+          alt="Foto"
+        >
+
+        <div class="chat-head-text">
+
+          <div
+            id="chatTitle"
+            class="chat-head-title"
+          >
+            Chat
+          </div>
+
+          <div
+            id="chatSub"
+            class="chat-head-sub"
+          >
+            Chat privado
+          </div>
+
+        </div>
+
       </div>
+
+
+      <div
+        id="chatError"
+        class="chat-error"
+      ></div>
+
+
+      <div
+        id="messages"
+        class="chat-messages"
+      ></div>
+
+
+      <div class="chat-compose">
+
+        <button
+          id="fileBtn"
+          class="file-btn"
+          title="Adjuntar archivo"
+          type="button"
+        >
+          📎
+        </button>
+
+        <input
+          id="fileInput"
+          type="file"
+          hidden
+          accept="image/*,video/*"
+        >
+
+        <input
+          id="message"
+          type="text"
+          placeholder="Escribe un mensaje..."
+          autocomplete="off"
+        >
+
+        <button
+          id="sendBtn"
+          class="send-btn"
+          type="button"
+        >
+          Enviar
+        </button>
+
+      </div>
+
     </section>
+
+
+    <div
+      id="statusMessage"
+      class="status-message"
+    ></div>
+
   </main>
 
-  <aside class="panel">
-    <div class="title">Crear Grupo</div>
-    <input id="room" placeholder="Nombre grupo" maxlength="80" autocomplete="off">
-    <button class="primary-btn full" onclick="createRoom()">Crear Grupo</button>
+  <!-- RIGHT -->
 
-    <div class="title" style="margin-top:14px;">Salas</div>
-    <div class="scroll" id="rooms"></div>
+  <aside class="panel">
+
+    <div class="title">
+      Crear Grupo
+    </div>
+
+    <input
+      id="groupName"
+      placeholder="Nombre grupo"
+      maxlength="80"
+      autocomplete="off"
+    >
+
+    <div
+      id="membersList"
+      class="member-list"
+    ></div>
+
+    <button
+      id="createGroupBtn"
+      class="primary-btn full"
+      type="button"
+    >
+      Crear Grupo
+    </button>
+
+
+    <div class="title groups-title white">
+      Mis Grupos
+    </div>
+
+    <div
+      id="groupsList"
+      class="scroll"
+    ></div>
+
   </aside>
 
 </div>
 
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
 <script>
-// ============================================================
-// CONFIGURACIÓN
-// ============================================================
+/* ============================================================
+   CONFIGURACIÓN
+============================================================ */
 
-const API = "https://calendars-included-pvc-whereas.trycloudflare.com";
-const KN_AUTH_API = "https://programs-sweet-limited-files.trycloudflare.com";
-const AUTH_URL = "https://smartium25.github.io/auth/";
-const TOKEN_KEY = "knfoundation_token";
+const API =
+  "https://dive-still-minneapolis-held.trycloudflare.com";
 
-// ============================================================
-// ESTADO
-// ============================================================
+const KN_AUTH_API =
+  "https://programs-sweet-limited-files.trycloudflare.com";
 
-let TOKEN = localStorage.getItem(TOKEN_KEY) || "";
+const AUTH_URL =
+  "https://smartium25.github.io/auth/";
+
+const TOKEN_KEY =
+  "knfoundation_token";
+
+
+/* ============================================================
+   ESTADO
+============================================================ */
+
+let TOKEN =
+  localStorage.getItem(
+    TOKEN_KEY
+  ) || "";
+
 let ME = null;
-let ws = null;
-let localStream = null;
-let peers = {};
-let pendingIce = {};
-let currentTarget = "";
-let currentRoom = "";
-let reconnectTimer = null;
-let reconnecting = false;
 
-// ============================================================
-// UTILIDADES
-// ============================================================
+let currentTarget = "";
+let currentType = "";
+
+let ws = null;
+
+let usersCache = [];
+
+let toastTimer = null;
+let reconnectTimer = null;
+let redirecting = false;
+
+
+/* ============================================================
+   UTILIDADES
+============================================================ */
 
 function authHeaders(){
+
   return {
-    "Authorization": `Bearer ${TOKEN}`
+    "Authorization":
+      `Bearer ${TOKEN}`
   };
 }
 
+
 function pfpUrl(value){
-  if(!value) return "https://via.placeholder.com/44";
-  if(value.startsWith("http://") || value.startsWith("https://")) return value;
-  return KN_AUTH_API + value;
+
+  if(!value){
+    return "https://via.placeholder.com/44";
+  }
+
+  if(
+    value.startsWith("http://") ||
+    value.startsWith("https://")
+  ){
+    return value;
+  }
+
+  if(
+    value.startsWith("/pfp/")
+  ){
+    return KN_AUTH_API + value;
+  }
+
+  return KN_AUTH_API +
+    (
+      value.startsWith("/")
+        ? value
+        : "/" + value
+    );
 }
 
-function showCallError(message){
-  const box = document.getElementById("callError");
-  box.textContent = message || "Ocurrió un error.";
-  box.style.display = "block";
+
+function showToast(message){
+
+  const box =
+    document.getElementById(
+      "toast"
+    );
+
+  box.textContent =
+    message || "Ocurrió un error.";
+
+  box.classList.add("show");
+
+  clearTimeout(
+    toastTimer
+  );
+
+  toastTimer =
+    setTimeout(
+      () => {
+        box.classList.remove(
+          "show"
+        );
+      },
+      2800
+    );
 }
 
-function hideCallError(){
-  const box = document.getElementById("callError");
-  box.textContent = "";
-  box.style.display = "none";
+
+function showChatError(message){
+
+  const box =
+    document.getElementById(
+      "chatError"
+    );
+
+  box.textContent =
+    message || "Ocurrió un error.";
+
+  box.style.display =
+    "block";
 }
 
-function showCallScreen(title){
-  document.getElementById("profile").style.display = "none";
-  document.getElementById("call").style.display = "flex";
-  document.getElementById("callHead").textContent = title || "Llamada";
+
+function hideChatError(){
+
+  const box =
+    document.getElementById(
+      "chatError"
+    );
+
+  box.textContent =
+    "";
+
+  box.style.display =
+    "none";
 }
 
-function showProfile(){
-  document.getElementById("call").style.display = "none";
-  document.getElementById("profile").style.display = "flex";
+
+function fallbackImage(
+  img,
+  size = 44
+){
+
+  img.onerror =
+    () => {
+
+      img.onerror =
+        null;
+
+      img.src =
+        "https://via.placeholder.com/" +
+        size;
+    };
 }
+
+
+/* ============================================================
+   AUTH REDIRECT
+============================================================ */
 
 function goAuth(){
-  const returnUrl = window.location.href;
+
+  if(redirecting){
+    return;
+  }
+
+  redirecting =
+    true;
+
+  const returnUrl =
+    window.location.href;
 
   window.location.replace(
-    AUTH_URL + "?redirect=" + encodeURIComponent(returnUrl)
+    AUTH_URL +
+    "?redirect=" +
+    encodeURIComponent(
+      returnUrl
+    )
   );
 }
 
-function stopReconnect(){
-  if(reconnectTimer){
-    clearTimeout(reconnectTimer);
-    reconnectTimer = null;
-  }
-  reconnecting = false;
-}
 
-// ============================================================
-// SESIÓN
-// ============================================================
+/* ============================================================
+   AUTH
+============================================================ */
 
 async function loadMe(){
+
   if(!TOKEN){
+
     goAuth();
+
     return false;
   }
 
-  try{
-    const response = await fetch(`${API}/api/me`, {
-      headers: authHeaders()
-    });
 
-    if(response.status === 401 || response.status === 403){
-      localStorage.removeItem(TOKEN_KEY);
-      TOKEN = "";
+  try{
+
+    const response =
+      await fetch(
+        `${API}/api/me`,
+        {
+          headers:
+            authHeaders()
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
       goAuth();
+
       return false;
     }
+
 
     if(!response.ok){
-      showCallError("No se pudo verificar la sesión.");
+
+      showChatError(
+        "No se pudo verificar la sesión."
+      );
+
       return false;
     }
 
-    const data = await response.json();
-    ME = data.user || data;
 
-    if(!ME || !ME.username){
-      showCallError("Kn Foundation no devolvió el usuario.");
+    const data =
+      await response.json();
+
+
+    ME =
+      data.user ||
+      data;
+
+
+    if(
+      !ME ||
+      !ME.username
+    ){
+
+      goAuth();
+
       return false;
     }
 
-    document.getElementById("me").textContent = "@" + ME.username;
-    document.getElementById("mypfp").src = pfpUrl(ME.pfp || ME.profile_picture);
-    document.getElementById("mypfp").onerror = () => {
-      document.getElementById("mypfp").src = "https://via.placeholder.com/150";
-    };
+
+    document.getElementById(
+      "me"
+    ).textContent =
+      "@" + ME.username;
+
+
+    const myPfp =
+      pfpUrl(
+        ME.pfp ||
+        ME.profile_picture
+      );
+
+
+    document.getElementById(
+      "mypfp"
+    ).src =
+      myPfp;
+
+
+    fallbackImage(
+      document.getElementById(
+        "mypfp"
+      ),
+      150
+    );
+
 
     return true;
+
   }catch(error){
-    console.error(error);
-    showCallError("No se pudo conectar con Smart-Call.");
+
+    console.error(
+      error
+    );
+
+    showChatError(
+      "No se pudo conectar con Smart-Chat."
+    );
+
     return false;
   }
 }
 
-// ============================================================
-// USUARIOS
-// ============================================================
+
+/* ============================================================
+   USERS
+============================================================ */
 
 async function loadUsers(){
-  try{
-    const response = await fetch(`${API}/api/users/list/${encodeURIComponent(ME.username)}`, {
-      headers: authHeaders()
-    });
 
-    if(response.status === 401 || response.status === 403){
-      localStorage.removeItem(TOKEN_KEY);
-      TOKEN = "";
+  try{
+
+    const response =
+      await fetch(
+        `${API}/api/users/list/` +
+        encodeURIComponent(
+          ME.username
+        ),
+        {
+          headers:
+            authHeaders()
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
       goAuth();
+
       return;
     }
+
 
     if(!response.ok){
-      const data = await response.json().catch(() => ({}));
-      throw new Error(data.detail || "Error cargando usuarios.");
+
+      throw new Error(
+        "Error cargando usuarios."
+      );
     }
 
-    const data = await response.json();
-    const list = Array.isArray(data) ? data : (data.users || []);
-    const box = document.getElementById("users");
-    box.innerHTML = "";
 
-    if(!list.length){
-      box.innerHTML = '<div class="empty">No hay otros usuarios.</div>';
+    const data =
+      await response.json();
+
+
+    const list =
+      Array.isArray(data)
+        ? data
+        : (
+          data.users ||
+          []
+        );
+
+
+    usersCache =
+      list.filter(
+        user =>
+          user &&
+          user.username &&
+          user.username !==
+            ME.username
+      );
+
+
+    const box =
+      document.getElementById(
+        "users"
+      );
+
+
+    const members =
+      document.getElementById(
+        "membersList"
+      );
+
+
+    box.innerHTML =
+      "";
+
+    members.innerHTML =
+      "";
+
+
+    if(!usersCache.length){
+
+      box.innerHTML =
+        '<div class="empty">No hay otros usuarios.</div>';
+
+      members.innerHTML =
+        '<div class="empty">No hay usuarios.</div>';
+
       return;
     }
 
-    list.forEach(user => {
-      const card = document.createElement("div");
-      card.className = "user-card";
 
-      const img = document.createElement("img");
-      img.src = pfpUrl(user.pfp || user.profile_picture);
-      img.onerror = () => img.src = "https://via.placeholder.com/44";
+    usersCache.forEach(
+      user => {
 
-      const dot = document.createElement("div");
-      dot.className = "status-dot " + (user.online ? "online" : "offline");
+        /* USER CARD */
 
-      const name = document.createElement("div");
-      name.className = "user-name";
-      name.textContent = "@" + user.username;
+        const card =
+          document.createElement(
+            "div"
+          );
 
-      const button = document.createElement("button");
-      button.className = "call-btn";
-      button.textContent = "📞";
-      button.title = "Llamar";
-      button.onclick = () => callUser(user.username);
+        card.className =
+          "user-card";
 
-      card.appendChild(img);
-      card.appendChild(dot);
-      card.appendChild(name);
-      card.appendChild(button);
-      box.appendChild(card);
-    });
+
+        const img =
+          document.createElement(
+            "img"
+          );
+
+        img.src =
+          pfpUrl(
+            user.pfp ||
+            user.profile_picture
+          );
+
+        fallbackImage(
+          img,
+          44
+        );
+
+
+        const dot =
+          document.createElement(
+            "div"
+          );
+
+        dot.className =
+          "status-dot " +
+          (
+            user.online
+              ? "online"
+              : "offline"
+          );
+
+
+        const name =
+          document.createElement(
+            "div"
+          );
+
+        name.className =
+          "user-name";
+
+        name.textContent =
+          "@" + user.username;
+
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+        button.className =
+          "chat-btn";
+
+        button.textContent =
+          "Chat";
+
+        button.onclick =
+          () =>
+            openPrivate(
+              user.username
+            );
+
+
+        card.append(
+          img,
+          dot,
+          name,
+          button
+        );
+
+
+        box.appendChild(
+          card
+        );
+
+
+        /* MEMBER CARD */
+
+        const member =
+          document.createElement(
+            "label"
+          );
+
+        member.className =
+          "member-card";
+
+
+        const memberImg =
+          document.createElement(
+            "img"
+          );
+
+        memberImg.src =
+          pfpUrl(
+            user.pfp ||
+            user.profile_picture
+          );
+
+        fallbackImage(
+          memberImg,
+          38
+        );
+
+
+        const memberName =
+          document.createElement(
+            "div"
+          );
+
+        memberName.className =
+          "member-name";
+
+        memberName.textContent =
+          "@" + user.username;
+
+
+        const checkbox =
+          document.createElement(
+            "input"
+          );
+
+        checkbox.type =
+          "checkbox";
+
+        checkbox.value =
+          user.username;
+
+
+        member.append(
+          memberImg,
+          memberName,
+          checkbox
+        );
+
+
+        members.appendChild(
+          member
+        );
+      }
+    );
+
   }catch(error){
-    console.error(error);
-    document.getElementById("users").innerHTML = '<div class="empty">No se pudieron cargar los usuarios.</div>';
+
+    console.error(
+      error
+    );
+
+    document.getElementById(
+      "users"
+    ).innerHTML =
+      '<div class="empty">No se pudieron cargar los usuarios.</div>';
+
+    document.getElementById(
+      "membersList"
+    ).innerHTML =
+      '<div class="empty">No se pudieron cargar los usuarios.</div>';
   }
 }
 
-// ============================================================
-// SALAS
-// ============================================================
 
-async function loadRooms(){
+/* ============================================================
+   PRIVATE CHAT
+============================================================ */
+
+function openPrivate(
+  username
+){
+
+  currentTarget =
+    username;
+
+  currentType =
+    "private";
+
+
+  document.getElementById(
+    "profile"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "chat"
+  ).style.display =
+    "flex";
+
+
+  const user =
+    usersCache.find(
+      item =>
+        item.username ===
+        username
+    );
+
+
+  document.getElementById(
+    "chatTitle"
+  ).textContent =
+    "@" + username;
+
+
+  document.getElementById(
+    "chatSub"
+  ).textContent =
+    user?.online
+      ? "En línea"
+      : "Desconectado";
+
+
+  document.getElementById(
+    "chatPfp"
+  ).src =
+    pfpUrl(
+      user?.pfp ||
+      user?.profile_picture
+    );
+
+
+  fallbackImage(
+    document.getElementById(
+      "chatPfp"
+    ),
+    44
+  );
+
+
+  hideChatError();
+
+  loadMessages();
+}
+
+
+/* ============================================================
+   GROUP CHAT
+============================================================ */
+
+function openGroup(
+  groupName
+){
+
+  currentTarget =
+    groupName;
+
+  currentType =
+    "group";
+
+
+  document.getElementById(
+    "profile"
+  ).style.display =
+    "none";
+
+
+  document.getElementById(
+    "chat"
+  ).style.display =
+    "flex";
+
+
+  document.getElementById(
+    "chatTitle"
+  ).textContent =
+    groupName;
+
+
+  document.getElementById(
+    "chatSub"
+  ).textContent =
+    "Grupo";
+
+
+  document.getElementById(
+    "chatPfp"
+  ).src =
+    "https://via.placeholder.com/44";
+
+
+  hideChatError();
+
+  loadMessages();
+}
+
+
+/* ============================================================
+   MESSAGES
+============================================================ */
+
+async function loadMessages(){
+
+  if(!currentTarget){
+    return;
+  }
+
+
+  const box =
+    document.getElementById(
+      "messages"
+    );
+
+
+  box.innerHTML =
+    '<div class="empty">Cargando...</div>';
+
+
+  const path =
+    currentType === "group"
+
+      ? `/api/groups/get/${encodeURIComponent(ME.username)}/${encodeURIComponent(currentTarget)}`
+
+      : `/api/chat/get/${encodeURIComponent(ME.username)}/${encodeURIComponent(currentTarget)}`;
+
+
   try{
-    const response = await fetch(`${API}/api/rooms`, {
-      headers: authHeaders()
-    });
 
-    if(response.status === 401 || response.status === 403){
-      localStorage.removeItem(TOKEN_KEY);
-      TOKEN = "";
+    const response =
+      await fetch(
+        API + path,
+        {
+          headers:
+            authHeaders()
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
       goAuth();
+
       return;
     }
+
 
     if(!response.ok){
-      throw new Error("Error cargando salas.");
+
+      throw new Error(
+        "No se pudieron cargar los mensajes."
+      );
     }
 
-    const data = await response.json();
-    const list = Array.isArray(data) ? data : (data.rooms || []);
-    const box = document.getElementById("rooms");
-    box.innerHTML = "";
 
-    if(!list.length){
-      box.innerHTML = '<div class="empty">No hay salas todavía.</div>';
-      return;
-    }
+    const data =
+      await response.json();
 
-    list.forEach(room => {
-      const card = document.createElement("div");
-      card.className = "room-card";
 
-      const info = document.createElement("div");
-      info.className = "room-info";
+    const messages =
+      Array.isArray(data)
+        ? data
+        : (
+          data.messages ||
+          []
+        );
 
-      const name = document.createElement("div");
-      name.className = "room-name";
-      name.textContent = room.name;
 
-      const creator = document.createElement("div");
-      creator.className = "room-creator";
-      creator.textContent = "Creado por @" + (room.creator || "desconocido");
+    renderMessages(
+      messages
+    );
 
-      const button = document.createElement("button");
-      button.className = "primary-btn";
-      button.textContent = "LLAMAR";
-      button.onclick = () => joinRoom(room.name);
-
-      info.appendChild(name);
-      info.appendChild(creator);
-      card.appendChild(info);
-      card.appendChild(button);
-      box.appendChild(card);
-    });
   }catch(error){
-    console.error(error);
-    document.getElementById("rooms").innerHTML = '<div class="empty">No se pudieron cargar las salas.</div>';
+
+    console.error(
+      error
+    );
+
+    box.innerHTML =
+      '<div class="empty">No se pudieron cargar los mensajes.</div>';
   }
 }
 
-async function createRoom(){
-  hideCallError();
-  const input = document.getElementById("room");
-  const name = input.value.trim();
+
+function renderMessages(
+  list
+){
+
+  const box =
+    document.getElementById(
+      "messages"
+    );
+
+
+  box.innerHTML =
+    "";
+
+
+  if(!list.length){
+
+    box.innerHTML =
+      '<div class="empty">No hay mensajes todavía.</div>';
+
+    return;
+  }
+
+
+  list.forEach(
+    message => {
+
+      const wrapper =
+        document.createElement(
+          "div"
+        );
+
+
+      wrapper.className =
+        "message" +
+        (
+          message.sender ===
+          ME.username
+            ? " mine"
+            : ""
+        );
+
+
+      if(
+        currentType ===
+        "group" &&
+        message.sender &&
+        message.sender !==
+          ME.username
+      ){
+
+        const sender =
+          document.createElement(
+            "div"
+          );
+
+        sender.className =
+          "message-sender";
+
+        sender.textContent =
+          "@" + message.sender;
+
+        wrapper.appendChild(
+          sender
+        );
+      }
+
+
+      if(
+        message.message
+      ){
+
+        const text =
+          document.createElement(
+            "div"
+          );
+
+        text.textContent =
+          message.message;
+
+        wrapper.appendChild(
+          text
+        );
+      }
+
+
+      if(
+        message.file
+      ){
+
+        const url =
+          API +
+          "/media/chat/" +
+          encodeURIComponent(
+            message.file
+          );
+
+
+        if(
+          message.type ===
+          "image"
+        ){
+
+          const img =
+            document.createElement(
+              "img"
+            );
+
+          img.src =
+            url;
+
+          img.className =
+            "media";
+
+          img.alt =
+            "Imagen";
+
+          wrapper.appendChild(
+            img
+          );
+
+        }else if(
+          message.type ===
+          "video"
+        ){
+
+          const video =
+            document.createElement(
+              "video"
+            );
+
+          video.src =
+            url;
+
+          video.controls =
+            true;
+
+          video.playsInline =
+            true;
+
+          video.className =
+            "media";
+
+          wrapper.appendChild(
+            video
+          );
+        }
+      }
+
+
+      const meta =
+        document.createElement(
+          "div"
+        );
+
+      meta.className =
+        "message-meta";
+
+      meta.textContent =
+        message.date ||
+        "";
+
+      wrapper.appendChild(
+        meta
+      );
+
+
+      box.appendChild(
+        wrapper
+      );
+    }
+  );
+
+
+  box.scrollTop =
+    box.scrollHeight;
+}
+
+
+/* ============================================================
+   SEND MESSAGE
+============================================================ */
+
+async function sendMessage(){
+
+  const input =
+    document.getElementById(
+      "message"
+    );
+
+
+  const text =
+    input.value.trim();
+
+
+  if(
+    !currentTarget ||
+    !text
+  ){
+    return;
+  }
+
+
+  try{
+
+    const path =
+      currentType === "group"
+        ? "/api/groups/send"
+        : "/api/chat/send";
+
+
+    /*
+      Mantiene el formato del
+      backend de tu Smart-Chat.
+    */
+
+    const body =
+      currentType === "group"
+
+        ? {
+            group: currentTarget,
+            message: text
+          }
+
+        : {
+            receiver: currentTarget,
+            message: text
+          };
+
+
+    const response =
+      await fetch(
+        API + path,
+        {
+          method:"POST",
+
+          headers:{
+            ...authHeaders(),
+            "Content-Type":
+              "application/json"
+          },
+
+          body:
+            JSON.stringify(
+              body
+            )
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
+      goAuth();
+
+      return;
+    }
+
+
+    if(!response.ok){
+
+      const data =
+        await response.json()
+          .catch(
+            () => ({})
+          );
+
+      throw new Error(
+        data.detail ||
+        "No se pudo enviar el mensaje."
+      );
+    }
+
+
+    input.value =
+      "";
+
+
+    await loadMessages();
+
+  }catch(error){
+
+    showToast(
+      error.message
+    );
+  }
+}
+
+
+/* ============================================================
+   FILE UPLOAD
+============================================================ */
+
+async function sendFile(
+  file
+){
+
+  if(
+    !currentTarget ||
+    !file
+  ){
+    return;
+  }
+
+
+  const form =
+    new FormData();
+
+
+  form.append(
+    "receiver",
+    currentTarget
+  );
+
+
+  form.append(
+    "file",
+    file
+  );
+
+
+  const path =
+    currentType === "group"
+
+      ? "/api/groups/upload"
+
+      : "/api/chat/upload";
+
+
+  try{
+
+    const response =
+      await fetch(
+        API + path,
+        {
+          method:"POST",
+
+          headers:
+            authHeaders(),
+
+          body:
+            form
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
+      goAuth();
+
+      return;
+    }
+
+
+    if(!response.ok){
+
+      const data =
+        await response.json()
+          .catch(
+            () => ({})
+          );
+
+      throw new Error(
+        data.detail ||
+        "No se pudo subir el archivo."
+      );
+    }
+
+
+    await loadMessages();
+
+  }catch(error){
+
+    showToast(
+      error.message
+    );
+  }
+}
+
+
+/* ============================================================
+   GROUPS
+============================================================ */
+
+async function loadGroups(){
+
+  try{
+
+    const response =
+      await fetch(
+        `${API}/api/groups/list/` +
+        encodeURIComponent(
+          ME.username
+        ),
+        {
+          headers:
+            authHeaders()
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
+      goAuth();
+
+      return;
+    }
+
+
+    if(!response.ok){
+
+      throw new Error(
+        "Error cargando grupos."
+      );
+    }
+
+
+    const data =
+      await response.json();
+
+
+    const groups =
+      Array.isArray(data)
+        ? data
+        : (
+          data.groups ||
+          []
+        );
+
+
+    const box =
+      document.getElementById(
+        "groupsList"
+      );
+
+
+    box.innerHTML =
+      "";
+
+
+    if(!groups.length){
+
+      box.innerHTML =
+        '<div class="empty">No estás en ningún grupo.</div>';
+
+      return;
+    }
+
+
+    groups.forEach(
+      group => {
+
+        const card =
+          document.createElement(
+            "div"
+          );
+
+        card.className =
+          "group-card";
+
+
+        const info =
+          document.createElement(
+            "div"
+          );
+
+        info.className =
+          "group-info";
+
+
+        const name =
+          document.createElement(
+            "div"
+          );
+
+        name.className =
+          "group-name";
+
+        name.textContent =
+          group.name;
+
+
+        const sub =
+          document.createElement(
+            "div"
+          );
+
+        sub.className =
+          "group-sub";
+
+        sub.textContent =
+          "Grupo";
+
+
+        info.append(
+          name,
+          sub
+        );
+
+
+        const button =
+          document.createElement(
+            "button"
+          );
+
+        button.className =
+          "chat-btn";
+
+        button.textContent =
+          "Chat";
+
+        button.onclick =
+          () =>
+            openGroup(
+              group.name
+            );
+
+
+        card.append(
+          info,
+          button
+        );
+
+
+        box.appendChild(
+          card
+        );
+      }
+    );
+
+  }catch(error){
+
+    console.error(
+      error
+    );
+
+    document.getElementById(
+      "groupsList"
+    ).innerHTML =
+      '<div class="empty">No se pudieron cargar los grupos.</div>';
+  }
+}
+
+
+async function createGroup(){
+
+  const input =
+    document.getElementById(
+      "groupName"
+    );
+
+
+  const name =
+    input.value.trim();
+
 
   if(!name){
-    showCallError("Escribe un nombre para el grupo.");
+
+    showToast(
+      "Escribe un nombre para el grupo."
+    );
+
+    input.focus();
+
     return;
   }
 
+
+  const selected =
+    [
+      ...document
+        .querySelectorAll(
+          '#membersList input[type="checkbox"]:checked'
+        )
+    ]
+    .map(
+      checkbox =>
+        checkbox.value
+    );
+
+
   try{
-    const response = await fetch(`${API}/api/rooms?name=${encodeURIComponent(name)}`, {
-      method: "POST",
-      headers: authHeaders()
-    });
 
-    const data = await response.json().catch(() => ({}));
+    /*
+      Se mantiene el formato
+      FormData que utiliza la base
+      de Smart-Chat.
+    */
 
-    if(response.status === 401 || response.status === 403){
-      localStorage.removeItem(TOKEN_KEY);
-      TOKEN = "";
+    const form =
+      new FormData();
+
+    form.append(
+      "name",
+      name
+    );
+
+    form.append(
+      "members",
+      selected.join(",")
+    );
+
+
+    const response =
+      await fetch(
+        API +
+        "/api/groups/create",
+        {
+          method:"POST",
+
+          headers:
+            authHeaders(),
+
+          body:
+            form
+        }
+      );
+
+
+    if(
+      response.status === 401 ||
+      response.status === 403
+    ){
+
+      localStorage.removeItem(
+        TOKEN_KEY
+      );
+
+      TOKEN =
+        "";
+
       goAuth();
+
       return;
     }
+
 
     if(!response.ok){
-      showCallError(data.detail || "No se pudo crear el grupo.");
-      return;
+
+      const data =
+        await response.json()
+          .catch(
+            () => ({})
+          );
+
+      throw new Error(
+        data.detail ||
+        "No se pudo crear el grupo."
+      );
     }
 
-    input.value = "";
-    await loadRooms();
-    await joinRoom(data.room || name);
+
+    input.value =
+      "";
+
+
+    document
+      .querySelectorAll(
+        '#membersList input[type="checkbox"]'
+      )
+      .forEach(
+        checkbox =>
+          checkbox.checked = false
+      );
+
+
+    await loadGroups();
+
+
+    openGroup(
+      name
+    );
+
+
+    showToast(
+      "Grupo creado."
+    );
+
   }catch(error){
-    console.error(error);
-    showCallError("No se pudo conectar con Smart-Call.");
+
+    showToast(
+      error.message
+    );
   }
 }
 
-// ============================================================
-// MEDIA
-// ============================================================
 
-async function initMedia(){
-  if(localStream) return localStream;
+/* ============================================================
+   WEBSOCKET
+============================================================ */
 
-  if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){
-    showCallError("Tu navegador no permite usar cámara y micrófono desde esta página.");
-    return null;
-  }
+function connectWebSocket(){
 
-  try{
-    localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true
-    });
+  if(
+    ws
+  ){
 
-    addVideo(ME.username, localStream, true);
-    return localStream;
-  }catch(error){
-    console.error(error);
-    if(error.name === "NotAllowedError"){
-      showCallError("Permite el acceso a la cámara y al micrófono para realizar la llamada.");
-    }else{
-      showCallError("No se pudo acceder a la cámara o al micrófono.");
-    }
-    return null;
-  }
-}
-
-// ============================================================
-// WEBRTC
-// ============================================================
-
-function createPeerConnection(username){
-  const peer = new RTCPeerConnection({
-    iceServers: [
-      { urls: "stun:stun.l.google.com:19302" }
-    ]
-  });
-
-  if(localStream){
-    localStream.getTracks().forEach(track => peer.addTrack(track, localStream));
-  }
-
-  peer.ontrack = event => {
-    if(event.streams && event.streams[0]){
-      addVideo(username, event.streams[0], false);
-    }
-  };
-
-  peer.onicecandidate = event => {
-    if(!event.candidate) return;
-    sendSocket({
-      type: "ice",
-      to: username,
-      candidate: event.candidate
-    });
-  };
-
-  peer.onconnectionstatechange = () => {
-    const state = peer.connectionState;
-    if(state === "failed" || state === "closed"){
-      removePeer(username);
-    }
-  };
-
-  peers[username] = peer;
-  return peer;
-}
-
-async function createPeer(username, makeOffer){
-  if(peers[username]) return peers[username];
-
-  const stream = await initMedia();
-  if(!stream) return null;
-
-  const peer = createPeerConnection(username);
-
-  if(makeOffer){
     try{
-      const offer = await peer.createOffer();
-      await peer.setLocalDescription(offer);
-      sendSocket({
-        type: "offer",
-        to: username,
-        offer: peer.localDescription
-      });
-    }catch(error){
-      console.error("Error creando offer:", error);
-      removePeer(username);
-    }
+      ws.close();
+    }catch{}
   }
 
-  return peer;
-}
 
-async function handleOffer(data){
-  if(!data.from) return;
+  if(
+    !ME?.username ||
+    !TOKEN
+  ){
+    return;
+  }
 
-  showCallScreen("Llamada con @" + data.from);
 
-  const peer = await createPeer(data.from, false);
-  if(!peer) return;
+  const wsUrl =
+    API
+      .replace(
+        /^https:/,
+        "wss:"
+      )
+      .replace(
+        /^http:/,
+        "ws:"
+      );
 
-  try{
-    await peer.setRemoteDescription(new RTCSessionDescription(data.offer));
 
-    const queued = pendingIce[data.from] || [];
-    for(const candidate of queued){
+  ws =
+    new WebSocket(
+      wsUrl +
+      "/ws/" +
+      encodeURIComponent(
+        ME.username
+      )
+    );
+
+
+  ws.onopen =
+    () => {
+
+      document.getElementById(
+        "statusMessage"
+      ).textContent =
+        "";
+    };
+
+
+  ws.onmessage =
+    async () => {
+
+      /*
+        No recarga la página.
+        Solo actualiza el chat y
+        el estado de usuarios.
+      */
+
+      if(
+        currentTarget
+      ){
+
+        try{
+          await loadMessages();
+        }catch{}
+      }
+
       try{
-        await peer.addIceCandidate(new RTCIceCandidate(candidate));
-      }catch(error){
-        console.error("ICE pendiente:", error);
-      }
-    }
-    delete pendingIce[data.from];
+        await loadUsers();
+      }catch{}
+    };
 
-    const answer = await peer.createAnswer();
-    await peer.setLocalDescription(answer);
 
-    sendSocket({
-      type: "answer",
-      to: data.from,
-      answer: peer.localDescription
-    });
-  }catch(error){
-    console.error("Error procesando offer:", error);
-    showCallError("No se pudo establecer la llamada.");
-  }
+  ws.onclose =
+    () => {
+
+      clearTimeout(
+        reconnectTimer
+      );
+
+
+      reconnectTimer =
+        setTimeout(
+          () => {
+
+            if(
+              TOKEN &&
+              ME
+            ){
+
+              connectWebSocket();
+            }
+
+          },
+          3000
+        );
+    };
+
+
+  ws.onerror =
+    () => {
+
+      document.getElementById(
+        "statusMessage"
+      ).textContent =
+        "WebSocket desconectado";
+    };
 }
 
-async function handleAnswer(data){
-  const peer = peers[data.from];
-  if(!peer) return;
 
-  try{
-    await peer.setRemoteDescription(new RTCSessionDescription(data.answer));
-
-    const queued = pendingIce[data.from] || [];
-    for(const candidate of queued){
-      try{
-        await peer.addIceCandidate(new RTCIceCandidate(candidate));
-      }catch(error){
-        console.error("ICE pendiente:", error);
-      }
-    }
-    delete pendingIce[data.from];
-  }catch(error){
-    console.error("Error procesando answer:", error);
-  }
-}
-
-async function handleIce(data){
-  if(!data.from || !data.candidate) return;
-
-  const peer = peers[data.from];
-  if(!peer || !peer.remoteDescription || !peer.remoteDescription.type){
-    pendingIce[data.from] ||= [];
-    pendingIce[data.from].push(data.candidate);
-    return;
-  }
-
-  try{
-    await peer.addIceCandidate(new RTCIceCandidate(data.candidate));
-  }catch(error){
-    console.error("Error agregando ICE:", error);
-  }
-}
-
-// ============================================================
-// VIDEOS
-// ============================================================
-
-function safeVideoId(username){
-  return "video-" + String(username).replace(/[^a-zA-Z0-9_-]/g, "_");
-}
-
-function addVideo(username, stream, local){
-  const id = safeVideoId(username);
-  let box = document.getElementById(id);
-
-  if(!box){
-    box = document.createElement("div");
-    box.className = "video-box";
-    box.id = id;
-
-    const video = document.createElement("video");
-    video.autoplay = true;
-    video.playsInline = true;
-    video.muted = !!local;
-    video.srcObject = stream;
-
-    const label = document.createElement("div");
-    label.className = "video-label";
-    label.textContent = local ? "Tú" : "@" + username;
-
-    box.appendChild(video);
-    box.appendChild(label);
-    document.getElementById("videos").appendChild(box);
-  }else{
-    const video = box.querySelector("video");
-    if(video) video.srcObject = stream;
-  }
-}
-
-function removePeer(username){
-  if(peers[username]){
-    try{ peers[username].close(); }catch(error){}
-    delete peers[username];
-  }
-  delete pendingIce[username];
-
-  const box = document.getElementById(safeVideoId(username));
-  if(box) box.remove();
-}
-
-// ============================================================
-// LLAMADAS
-// ============================================================
-
-function callUser(username){
-  currentRoom = "";
-  currentTarget = username;
-  showCallScreen("Llamada con @" + username);
-  hideCallError();
-  startCurrentCall();
-}
-
-async function startCurrentCall(){
-  hideCallError();
-
-  if(!currentTarget && !currentRoom){
-    showCallError("Selecciona un usuario o una sala primero.");
-    return;
-  }
-
-  if(!ws || ws.readyState !== WebSocket.OPEN){
-    showCallError("El servidor de llamadas no está conectado.");
-    connectSocket(true);
-    return;
-  }
-
-  const stream = await initMedia();
-  if(!stream) return;
-
-  if(currentTarget){
-    await createPeer(currentTarget, true);
-  }
-}
-
-async function joinRoom(room){
-  hideCallError();
-
-  if(!room) return;
-
-  await endCall(false);
-
-  currentRoom = room;
-  currentTarget = "";
-  showCallScreen("Grupo: " + room);
-
-  if(!ws || ws.readyState !== WebSocket.OPEN){
-    showCallError("El servidor de llamadas no está conectado.");
-    connectSocket(true);
-    return;
-  }
-
-  const stream = await initMedia();
-  if(!stream) return;
-
-  sendSocket({
-    type: "join_room",
-    room: room
-  });
-}
-
-// ============================================================
-// WEBSOCKET
-// ============================================================
-
-function wsUrl(){
-  return API.replace(/^http:/, "ws:").replace(/^https:/, "wss:");
-}
-
-function sendSocket(data){
-  if(ws && ws.readyState === WebSocket.OPEN){
-    ws.send(JSON.stringify(data));
-  }
-}
-
-function connectSocket(retryOnFailure=false){
-  if(!ME || !TOKEN) return;
-  if(ws && (ws.readyState === WebSocket.OPEN || ws.readyState === WebSocket.CONNECTING)) return;
-
-  stopReconnect();
-
-  try{
-    ws = new WebSocket(`${wsUrl()}/ws/${encodeURIComponent(ME.username)}?token=${encodeURIComponent(TOKEN)}`);
-  }catch(error){
-    console.error(error);
-    if(retryOnFailure) scheduleReconnect();
-    return;
-  }
-
-  ws.onopen = () => {
-    console.log("Smart-Call conectado.");
-
-    if(currentRoom){
-      sendSocket({
-        type: "join_room",
-        room: currentRoom
-      });
-    }
-  };
-
-  ws.onmessage = async event => {
-    try{
-      const data = JSON.parse(event.data);
-
-      switch(data.type){
-        case "room_users":
-          if(data.room !== currentRoom) break;
-          for(const username of (data.users || [])){
-            if(username === ME.username) continue;
-            await createPeer(username, true);
-          }
-          break;
-
-        case "room_user_joined":
-          if(data.room === currentRoom && data.username !== ME.username){
-            // El usuario que ya estaba dentro espera el offer del recién llegado.
-            await createPeer(data.username, false);
-          }
-          break;
-
-        case "room_user_left":
-          if(data.room === currentRoom){
-            removePeer(data.username);
-          }
-          break;
-
-        case "offer":
-          if(!currentRoom && !currentTarget){
-            currentTarget = data.from || "";
-          }
-          await handleOffer(data);
-          break;
-
-        case "answer":
-          await handleAnswer(data);
-          break;
-
-        case "ice":
-          await handleIce(data);
-          break;
-
-        case "end_call":
-          removePeer(data.from);
-          if(Object.keys(peers).length === 0 && !currentRoom){
-            showProfile();
-          }
-          break;
-
-        case "error":
-          showCallError(data.message || "Error del servidor.");
-          break;
-
-        case "pong":
-          break;
-      }
-    }catch(error){
-      console.error("Error WebSocket:", error);
-    }
-  };
-
-  ws.onclose = () => {
-    console.log("Smart-Call desconectado.");
-    ws = null;
-    if(TOKEN && ME) scheduleReconnect();
-  };
-
-  ws.onerror = error => {
-    console.error("WebSocket:", error);
-    if(retryOnFailure) scheduleReconnect();
-  };
-}
-
-function scheduleReconnect(){
-  if(reconnecting || !TOKEN || !ME) return;
-  reconnecting = true;
-  reconnectTimer = setTimeout(() => {
-    reconnecting = false;
-    reconnectTimer = null;
-    connectSocket();
-  }, 2500);
-}
-
-setInterval(() => {
-  if(ws && ws.readyState === WebSocket.OPEN){
-    try{ ws.send("ping"); }catch(error){}
-  }
-}, 20000);
-
-// ============================================================
-// COLGAR / LOGOUT
-// ============================================================
-
-async function endCall(returnToProfile=true){
-  for(const username of Object.keys(peers)){
-    sendSocket({
-      type: "end_call",
-      to: username
-    });
-    try{ peers[username].close(); }catch(error){}
-  }
-
-  peers = {};
-  pendingIce = {};
-
-  if(localStream){
-    localStream.getTracks().forEach(track => track.stop());
-    localStream = null;
-  }
-
-  document.getElementById("videos").innerHTML = "";
-
-  if(currentRoom){
-    sendSocket({
-      type: "leave_room",
-      room: currentRoom
-    });
-  }
-
-  currentTarget = "";
-  currentRoom = "";
-  hideCallError();
-
-  if(returnToProfile){
-    showProfile();
-  }
-}
+/* ============================================================
+   LOGOUT
+============================================================ */
 
 async function logout(){
-  try{
-    await endCall(false);
-    if(ws){
-      try{ ws.close(); }catch(error){}
-      ws = null;
-    }
 
-    await fetch(`${API}/api/logout`, {
-      method: "POST",
-      headers: authHeaders()
-    });
+  try{
+
+    await fetch(
+      `${API}/api/logout`,
+      {
+        method:"POST",
+        headers:
+          authHeaders()
+      }
+    );
+
   }catch(error){
-    console.error(error);
+
+    console.error(
+      error
+    );
   }
 
-  localStorage.removeItem(TOKEN_KEY);
-  TOKEN = "";
-  ME = null;
+
+  if(ws){
+
+    try{
+      ws.close();
+    }catch{}
+  }
+
+
+  localStorage.removeItem(
+    TOKEN_KEY
+  );
+
+  TOKEN =
+    "";
+
+
   goAuth();
 }
 
-// ============================================================
-// INICIO
-// ============================================================
 
-async function start(){
-  const valid = await loadMe();
-  if(!valid) return;
+/* ============================================================
+   EVENTS
+============================================================ */
 
-  document.getElementById("app").style.display = "grid";
+document.getElementById(
+  "sendBtn"
+).onclick =
+  sendMessage;
 
-  await Promise.all([
-    loadUsers(),
-    loadRooms()
-  ]);
 
-  connectSocket();
-}
+document.getElementById(
+  "message"
+).addEventListener(
+  "keydown",
+  event => {
 
-start();
+    if(
+      event.key ===
+      "Enter"
+    ){
+
+      event.preventDefault();
+
+      sendMessage();
+    }
+  }
+);
+
+
+document.getElementById(
+  "fileBtn"
+).onclick =
+  () =>
+    document
+      .getElementById(
+        "fileInput"
+      )
+      .click();
+
+
+document.getElementById(
+  "fileInput"
+).addEventListener(
+  "change",
+  event => {
+
+    const file =
+      event.target.files?.[0];
+
+
+    if(file){
+
+      sendFile(
+        file
+      );
+    }
+
+
+    event.target.value =
+      "";
+  }
+);
+
+
+document.getElementById(
+  "createGroupBtn"
+).onclick =
+  createGroup;
+
+
+/* ============================================================
+   START
+============================================================ */
+
+(async function(){
+
+  const authenticated =
+    await loadMe();
+
+
+  if(!authenticated){
+    return;
+  }
+
+
+  document.getElementById(
+    "app"
+  ).style.display =
+    "grid";
+
+
+  await loadUsers();
+
+  await loadGroups();
+
+  connectWebSocket();
+
+
+  /*
+    Actualiza usuarios cada 10 segundos.
+    No recarga la página y no toca
+    los mensajes del chat.
+  */
+
+  setInterval(
+    async () => {
+
+      if(
+        !TOKEN ||
+        !ME
+      ){
+        return;
+      }
+
+
+      try{
+
+        await loadUsers();
+
+      }catch(error){
+
+        console.error(
+          error
+        );
+      }
+
+    },
+    10000
+  );
+
+})();
 </script>
+
 </body>
 </html>
