@@ -412,7 +412,18 @@ function showProfile(){
 }
 
 function goAuth(){
-  window.location.replace(AUTH_URL);
+
+    const returnUrl =
+        window.location.href;
+
+    const authUrl =
+        AUTH_URL +
+        "?redirect=" +
+        encodeURIComponent(returnUrl);
+
+    window.location.replace(
+        authUrl
+    );
 }
 
 function stopReconnect(){
